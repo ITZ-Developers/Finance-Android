@@ -1,38 +1,34 @@
-# Android Base MVVM Project Structure - Java
- 
-- MVVM
-- Retrofit
-- RXJava3
-- Room
-- Dagger2
-- Timber
-- Databinding
-- Livedata
-- Toasty
-- Firbase crash report
+# Finance Android
 
-## Fonts
-	- https://stackoverflow.com/a/27588966
+This project is the mobile Android application for internal company management. For the backend API repository, refer to the link below:
 
-## Dagger2
-	- https://github.com/google/dagger/tree/dagger-2.35.1
+**API Repository**: [Finance API](https://github.com/ITZ-Developers/Finance-API)
 
-## Databinding
-	- https://www.youtube.com/watch?v=Njo-1j56Z-4
-	- https://www.youtube.com/playlist?list=PL3Ob3F0T-08YHxzJci2eQC47EbEZ31ka7
-	- https://developer.android.com/codelabs/android-databinding#8
-	- https://viblo.asia/p/databinding-trong-android-phan-1-3Q75wpxJKWb
+## Installation
 
-## Room Database
-	- https://www.youtube.com/watch?v=HhmA9S53XV8&list=PLrnPJCHvNZuDihTpkRs6SpZhqgBqPU118&index=4
+1. **Install Android Studio**
 
-## Toasty
-	- https://github.com/GrenderG/Toasty
+   - Download and install Android Studio from the official website.
 
-## Firbase crash report
-	- Guide integrate: https://firebase.google.com/docs/crashlytics/get-started?platform=android
-	- https://proandroiddev.com/remote-logging-with-timber-and-firebase-realtime-database-a9dfbe66284c
-	- Test force crash: https://firebase.google.com/docs/crashlytics/test-implementation?authuser=0&platform=android
+2. **Configure Android SDK**
 
-## Create file template Android studio:
-	- https://viblo.asia/p/code-nhanh-hon-voi-custom-template-trong-android-studio-63vKjQX652R
+   - Verify and configure the Android SDK after installation.
+
+3. **Set Up Testing Devices**
+
+   - Install an Android Virtual Device (AVD) or connect a physical Android device.
+   - Ensure the API endpoint is functioning correctly.
+
+4. **Load the Project**
+
+   - Download and open the project in Android Studio.
+
+5. **Environment Configuration**
+
+   - **JDK**: Use version 15 or 11.
+   - **Android Gradle Plugin (AGP)**: Use version 7.0.0.
+   - **Gradle**: Use version 7.3.
+   - Ensure compatibility between AGP, Gradle, and JDK versions.
+
+6. **Run the Application**
+   - Click the **Run App** button in Android Studio to build and test the application.
