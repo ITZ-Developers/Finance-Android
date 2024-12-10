@@ -83,15 +83,16 @@
                         android:id="@+id/tv_content"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:maxLines="3"
+                        android:maxLines="2"
                         android:ellipsize="end"
                         android:textColor="#100D40"
                         android:textSize="@dimen/_13ssp"
                         android:maxWidth="@dimen/_220sdp"
                         android:layout_toEndOf="@+id/cardView"
                         android:layout_marginStart="@dimen/_7sdp"
-                        android:text="@{ivm.message, default=@string/example_notification }"
+                        android:text="@{ivm.message, default=ItemNotification }"
                         android:lineSpacingMultiplier="1.3"
+                        android:layout_centerVertical="true"
                         />
 
                     <ImageView

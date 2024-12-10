@@ -1,6 +1,7 @@
 package com.finance.data.model.api.response.debit;
 
 import com.finance.data.model.api.response.account.AccountResponse;
+import com.finance.data.model.api.response.tag.TagResponse;
 import com.finance.data.model.api.response.transaction.Category;
 import com.finance.data.model.api.response.transaction.TransactionResponse;
 import com.finance.data.model.api.response.transaction.group.TransactionGroupResponse;
@@ -30,5 +31,5 @@ public class DebitResponse implements Serializable {
     private String document;
     private AccountResponse addedBy;
     private TransactionResponse transaction;
-
+    private TagResponse tag;
 }

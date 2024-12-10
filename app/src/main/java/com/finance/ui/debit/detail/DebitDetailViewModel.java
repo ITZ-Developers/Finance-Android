@@ -60,6 +60,7 @@ public class DebitDetailViewModel extends BaseViewModel {
                 ));
     }
 
+
     public void downloadFile(String url, String fileInput) {
         String[] parts = url.split("/");
         String folder = parts[1];

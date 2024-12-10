@@ -8,6 +8,7 @@ import com.finance.R;
 import com.finance.data.Repository;
 import com.finance.data.model.api.response.key.KeyGroupResponse;
 import com.finance.data.model.api.response.organization.OrganizationResponse;
+import com.finance.data.model.api.response.tag.TagResponse;
 import com.finance.ui.base.BaseViewModel;
 import com.finance.utils.NetworkUtils;
 
@@ -23,10 +24,12 @@ import timber.log.Timber;
 
 public class KeyFilterViewModel extends BaseViewModel {
     public MutableLiveData<List<KeyGroupResponse>> keyGroupResponses = new MutableLiveData<>(new ArrayList<>());
+    public MutableLiveData<List<TagResponse>> tagResponses = new MutableLiveData<>(new ArrayList<>());
     public MutableLiveData<List<OrganizationResponse>> organizationResponses = new MutableLiveData<>(new ArrayList<>());
     public ObservableField<Integer> category = new ObservableField<>(0);
     public ObservableField<Long> keyGroupId = new ObservableField<>(0L);
     public ObservableField<Long> organizationId = new ObservableField<>(0L);
+    public ObservableField<Long> tagId = new ObservableField<>(0L);
     public ObservableField<Integer> kind = new ObservableField<>(0);
     public KeyFilterViewModel(Repository repository, MVVMApplication application) {
         super(repository, application);
@@ -63,6 +66,40 @@ public class KeyFilterViewModel extends BaseViewModel {
                         showErrorMessage(application.getResources().getString(R.string.no_internet));
                     }
                     )
+                );
+    }
+
+    public void getAllTags() {
+        compositeDisposable.add
+                (repository.getApiService().getTags(3)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .retryWhen(throwable ->
+                                throwable.flatMap((Function<Throwable, ObservableSource<?>>) throwable1 -> {
+                                    if (NetworkUtils.checkNetworkError(throwable1)) {
+                                        hideLoading();
+                                        return application.showDialogNoInternetAccess();
+                                    }else{
+                                        return Observable.error(throwable1);
+                                    }
+                                })
+                        )
+                        .subscribe(
+                                response -> {
+                                    hideLoading();
+                                    if (response.isResult()) {
+                                        if (response.getData().getContent() != null){
+                                            tagResponses.setValue(response.getData().getContent());
+                                        } else {
+                                            tagResponses.setValue(new ArrayList<>());
+                                        }
+                                    }
+                                }, throwable -> {
+                                    hideLoading();
+                                    Timber.e(throwable);
+                                    showErrorMessage(application.getResources().getString(R.string.no_internet));
+                                }
+                        )
                 );
     }
 

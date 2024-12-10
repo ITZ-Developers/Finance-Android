@@ -1,6 +1,7 @@
 package com.finance.data.model.api.request.debit;
 
 import com.finance.data.model.api.response.debit.DebitResponse;
+import com.finance.data.model.api.response.tag.TagResponse;
 import com.finance.data.model.api.response.transaction.TransactionResponse;
 
 import lombok.AllArgsConstructor;
@@ -12,7 +13,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class DebitUpdateRequest {
     private Long id;
-
     private String name;
     private Integer kind;
     private Long categoryId;
@@ -24,6 +24,7 @@ public class DebitUpdateRequest {
     private String transactionDate;
     private Long addedBy;
     private TransactionResponse transaction;
+    private Long tagId;
     public DebitUpdateRequest(DebitResponse debitResponse) {
         this.id = debitResponse.getId();
         this.name = debitResponse.getName();
@@ -40,5 +41,7 @@ public class DebitUpdateRequest {
             this.addedBy = debitResponse.getAddedBy().getId();
         if (debitResponse.getTransaction() != null)
             this.transaction = debitResponse.getTransaction();
+        if (debitResponse.getTag() != null)
+            this.tagId = debitResponse.getTag().getId();
     }
 }

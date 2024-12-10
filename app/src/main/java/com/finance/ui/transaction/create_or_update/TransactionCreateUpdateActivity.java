@@ -212,6 +212,7 @@ public class TransactionCreateUpdateActivity extends BaseActivity<ActivityTransa
                 tagResponse.setName(decrypt(tagResponse.getName()));
                 tagResponse.setColorCode(decrypt(tagResponse.getColorCode()));
             }
+
             mListTags = tagResponses;
             adapterTag = new TagColorAdapter(this, tagResponses);
             viewBinding.cbbTag.setAdapter(adapterTag);
@@ -506,6 +507,7 @@ public class TransactionCreateUpdateActivity extends BaseActivity<ActivityTransa
             Objects.requireNonNull(viewModel.transactionRequest.get()).setCategoryId(null);
             viewModel.isRightCategory.set(true);
         }
+
         //Handle right tag
         if (!viewBinding.cbbTag.getText().toString().isEmpty()){
             for (TagResponse tagResponse : mListTags) {

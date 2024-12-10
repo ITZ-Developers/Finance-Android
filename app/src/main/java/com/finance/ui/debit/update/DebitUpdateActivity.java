@@ -6,6 +6,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -36,12 +37,14 @@ import com.finance.data.model.api.request.debit.DebitUpdateRequest;
 import com.finance.data.model.api.response.account.AccountResponse;
 import com.finance.data.model.api.response.category.CategoryResponse;
 import com.finance.data.model.api.response.debit.DebitResponse;
+import com.finance.data.model.api.response.tag.TagResponse;
 import com.finance.ui.document.adapter.DocumentAdapter;
 import com.finance.data.model.api.response.document.DocumentResponse;
 import com.finance.data.model.api.response.transaction.group.TransactionGroupResponse;
 import com.finance.databinding.ActivityDebitUpdateBinding;
 import com.finance.di.component.ActivityComponent;
 import com.finance.ui.base.BaseActivity;
+import com.finance.ui.tag.adapter.TagColorAdapter;
 import com.finance.utils.AESUtils;
 import com.finance.utils.DateUtils;
 import com.finance.utils.FileUtils;
@@ -58,6 +61,7 @@ import java.util.List;
 import java.util.Objects;
 
 import okhttp3.MultipartBody;
+import timber.log.Timber;
 
 public class DebitUpdateActivity extends BaseActivity<ActivityDebitUpdateBinding, DebitUpdateViewModel>
 {
@@ -66,11 +70,13 @@ public class DebitUpdateActivity extends BaseActivity<ActivityDebitUpdateBinding
     private ArrayAdapter<String> adapterCategory;
     private ArrayAdapter<String> adapterAccount;
     private ArrayAdapter<String> adapterTransactionGroup;
+    private TagColorAdapter adapterTag;
 
     //List of group transaction, category, account
     private List<TransactionGroupResponse> mListGroupTransactions;
     private List<CategoryResponse> mListCategories;
     private List<AccountResponse> mListAccounts;
+    private List<TagResponse> mListTags;
 
     //Document and current document
     private DocumentAdapter mDocumentAdapter;
@@ -110,10 +116,11 @@ public class DebitUpdateActivity extends BaseActivity<ActivityDebitUpdateBinding
         if (checkPermissionToCallApiGetListAccount())
             viewModel.getListAccounts();
         viewModel.getAllGroupTransaction();
-
+        viewModel.getListTags();
         //Get data from api
         getListGroupTransactions();
         getListAccounts();
+        getListTags();
         getListCategories();
         getDocumentAfterUpload();
 
@@ -256,6 +263,21 @@ public class DebitUpdateActivity extends BaseActivity<ActivityDebitUpdateBinding
             Objects.requireNonNull(viewModel.debitRequest.get()).setCategoryId(null);
             viewModel.isRightCategory.set(true);
         }
+
+        //Handle right tag
+        if (!viewBinding.cbbTag.getText().toString().isEmpty()){
+            for (TagResponse tagResponse : mListTags) {
+                if (tagResponse.getName().equals(viewBinding.cbbTag.getText().toString())){
+                    viewModel.isRightTag.set(true);
+                    break;
+                }
+            }
+        }
+        else{
+            Objects.requireNonNull(viewModel.debitRequest.get()).setTagId(null);
+            viewModel.isRightTag.set(true);
+        }
+
         //Handle right group transaction
         if (!viewBinding.cbbDebitGroup.getText().toString().isEmpty()){
             for (TransactionGroupResponse groupTransactionResponse : mListGroupTransactions) {
@@ -485,6 +507,12 @@ public class DebitUpdateActivity extends BaseActivity<ActivityDebitUpdateBinding
                     () -> viewBinding.cbbDebitCategory.showDropDown(), Constants.DELAY_SHOW_DROP_DOWN
             );
         });
+        viewBinding.cbbTag.setOnClickListener(v -> {
+            showKeyboard();
+            viewBinding.cbbTag.postDelayed(() ->
+                    viewBinding.cbbTag.showDropDown(), Constants.DELAY_SHOW_DROP_DOWN
+            );
+        });
         viewBinding.cbbAddedBy.setOnClickListener(v -> {
             showKeyboard();
             viewBinding.cbbAddedBy.postDelayed(() ->
@@ -505,6 +533,15 @@ public class DebitUpdateActivity extends BaseActivity<ActivityDebitUpdateBinding
         viewBinding.cbbDebitGroup.setOnItemClickListener((adapterView, view, position, id) -> {
             Objects.requireNonNull(viewModel.debitRequest.get()).
                     setTransactionGroupId(mListGroupTransactions.get(position).getId());
+            hideKeyboard();
+        });
+        viewBinding.cbbTag.setOnItemClickListener((adapterView, view, i, l) -> {
+            Objects.requireNonNull(viewModel.debitRequest.get()).
+                    setTagId(mListTags.get(i).getId());
+            Timber.tag("TagViewModel-s").e("setupOnItemClickForAllCbb: %s", viewModel.debitRequest.get().getTagId());
+            viewBinding.layoutColor.setVisibility(View.VISIBLE);
+            viewBinding.cbbTag.setText(mListTags.get(i).getName(), false);
+            viewBinding.layoutColor.setColorFilter(Color.parseColor(mListTags.get(i).getColorCode()));
             hideKeyboard();
         });
         viewBinding.cbbDebitCategory.setOnItemClickListener((adapterView, view, position, id) -> {
@@ -605,6 +642,37 @@ public class DebitUpdateActivity extends BaseActivity<ActivityDebitUpdateBinding
             }
         });
     }
+
+    private void getListTags() {
+        viewModel.tags.observe(this, tagResponses -> {
+            if (tagResponses == null || tagResponses.isEmpty()) {
+                viewModel.isHaveTag.set(false);
+                return;
+            }
+
+            for (TagResponse tagResponse : tagResponses) {
+                tagResponse.setName(decrypt(tagResponse.getName()));
+                tagResponse.setColorCode(decrypt(tagResponse.getColorCode()));
+            }
+
+            mListTags = tagResponses;
+            adapterTag = new TagColorAdapter(this, tagResponses);
+            viewBinding.cbbTag.setAdapter(adapterTag);
+
+            if (Objects.requireNonNull(viewModel.debitRequest.get()).getTagId() != null){
+                for (int i = 0; i < tagResponses.size(); i++) {
+                    if (tagResponses.get(i).getId().equals(
+                            Objects.requireNonNull(viewModel.debitRequest.get()).getTagId())) {
+                        viewBinding.layoutColor.setVisibility(View.VISIBLE);
+                        viewBinding.cbbTag.setText(Objects.requireNonNull(adapterTag.getItem(i)).getName(), false);
+                        viewBinding.layoutColor.setColorFilter(Color.parseColor(Objects.requireNonNull(adapterTag.getItem(i)).getColorCode()));
+                        break;
+                    }
+                }
+            }
+        });
+    }
+
     @SuppressLint("NotifyDataSetChanged")
     private void getDocumentAfterUpload() {
         viewModel.filePathDocuments.observe(this, filePath -> {

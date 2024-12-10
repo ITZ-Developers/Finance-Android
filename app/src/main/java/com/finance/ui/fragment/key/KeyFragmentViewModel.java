@@ -24,6 +24,7 @@ public class KeyFragmentViewModel extends BaseFragmentViewModel {
     public ObservableField<Long> keyGroupId = new ObservableField<>(0L);
 
     public ObservableField<Long> organizationId = new ObservableField<>(0L);
+    public ObservableField<Long> tagId = new ObservableField<>(0L);
 
     public ObservableField<Integer> kind = new ObservableField<>(0);
     public ObservableField<Boolean> isShowFilter = new ObservableField<>(false);
@@ -47,7 +48,7 @@ public class KeyFragmentViewModel extends BaseFragmentViewModel {
         return compositeDisposable;
     }
     public Observable<ResponseWrapper<ResponseListObj<KeyResponse>>> getKeys(){
-        return repository.getApiService().getKeyInformation(pageNumber.get(), pageSize.get(), kind.get(), keyGroupId.get(), organizationId.get(), 0);
+        return repository.getApiService().getKeyInformation(pageNumber.get(), pageSize.get(), kind.get(), keyGroupId.get(), organizationId.get(), tagId.get(), 0);
     }
 
     public Observable<ResponseStatus> deleteKey(Long id){

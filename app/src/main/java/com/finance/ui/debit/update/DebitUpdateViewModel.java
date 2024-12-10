@@ -11,6 +11,7 @@ import com.finance.data.Repository;
 import com.finance.data.model.api.request.debit.DebitUpdateRequest;
 import com.finance.data.model.api.response.account.AccountResponse;
 import com.finance.data.model.api.response.category.CategoryResponse;
+import com.finance.data.model.api.response.tag.TagResponse;
 import com.finance.data.model.api.response.transaction.group.TransactionGroupResponse;
 import com.finance.ui.base.BaseViewModel;
 import com.finance.utils.NetworkUtils;
@@ -36,17 +37,49 @@ public class DebitUpdateViewModel extends BaseViewModel {
     public MutableLiveData<List<TransactionGroupResponse>> groupTransactions = new MutableLiveData<>(new ArrayList<>());
     public MutableLiveData<List<CategoryResponse>> categories = new MutableLiveData<>(new ArrayList<>());
     public MutableLiveData<List<AccountResponse>> accounts = new MutableLiveData<>(new ArrayList<>());
+    public MutableLiveData<List<TagResponse>> tags = new MutableLiveData<>(new ArrayList<>());
     public MutableLiveData<String> filePathDocuments = new MutableLiveData<>("");
     public ObservableField<Boolean> isHaveGroupTransaction = new ObservableField<>(false);
     public ObservableField<Boolean> isHaveCategory = new ObservableField<>(false);
     public ObservableField<Boolean> isRightGroupTransaction = new ObservableField<>(false);
     public ObservableField<Boolean> isRightCategory = new ObservableField<>(false);
+    public ObservableField<Boolean> isRightTag = new ObservableField<>(false);
     public ObservableField<Boolean> isHaveAccount = new ObservableField<>(false);
+    public ObservableField<Boolean> isHaveTag = new ObservableField<>(false);
     public ObservableField<Boolean> isRightAccountAddedBy = new ObservableField<>(false);
 
     public ObservableField<String> fullName = new ObservableField<>(repository.getAccount().getFullName());
     public DebitUpdateViewModel(Repository repository, MVVMApplication application) {
         super(repository, application);
+    }
+
+    public void getListTags(){
+        showLoading();
+        compositeDisposable.add(repository.getApiService().getTags(1)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .retryWhen(throwable ->
+                        throwable.flatMap((Function<Throwable, ObservableSource<?>>) throwable1 -> {
+                            if (NetworkUtils.checkNetworkError(throwable1)) {
+                                hideLoading();
+                                return application.showDialogNoInternetAccess();
+                            }else{
+                                return Observable.error(throwable1);
+                            }
+                        })
+                )
+                .subscribe(
+                        response -> {
+                            if (response.isResult() && response.getData().getContent() != null) {
+                                isHaveTag.set(true);
+                                tags.setValue(response.getData().getContent());
+                            }
+                            hideLoading();
+                        }, throwable -> {
+                            hideLoading();
+                            showErrorMessage(application.getResources().getString(R.string.no_internet));
+                        }
+                ));
     }
 
 
@@ -146,6 +179,7 @@ public class DebitUpdateViewModel extends BaseViewModel {
         Objects.requireNonNull(debitRequest.get()).setName(
                 Objects.requireNonNull(debitRequest.get()).getName().trim());
         showLoading();
+        Timber.tag("DebitUpdateViewModel").e(Objects.requireNonNull(debitRequest.get()).toString());
         compositeDisposable.add(repository.getApiService().updateDebit(debitRequest.get())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -201,6 +235,12 @@ public class DebitUpdateViewModel extends BaseViewModel {
             showErrorMessage(application.getString(R.string.group_transaction_do_not_exist));
             return true;
         }
+
+        if (Boolean.FALSE.equals(isRightTag.get())){
+            showErrorMessage(application.getString(R.string.tag_do_not_exist));
+            return true;
+        }
+
         return false;
     }
 

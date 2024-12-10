@@ -173,6 +173,7 @@ public interface ApiService {
                                                                                 @Query("kind") Integer kind,
                                                                                 @Query("keyInformationGroupId") Long keyInformationGroupId,
                                                                                 @Query("organizationId") Long organizationId,
+                                                                                @Query("tagId") Long tagId,
                                                                                 @Query("isPaged") Integer isPaged);
     @GET("/v1/key-information/get/{id}")
     Observable<ResponseWrapper<KeyResponse>> getKeyDetails(@Path("id") Long id);

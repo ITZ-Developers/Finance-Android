@@ -143,6 +143,13 @@ public class KeyFragment extends BaseFragment<FragmentKeyBinding, KeyFragmentVie
                                 viewModel.kind.set(null);
                             }
 
+                            if (bundle.getLong(Constants.TAG_ID) != 0){
+                                viewModel.tagId.set(bundle.getLong(Constants.TAG_ID));
+                            }else {
+                                viewModel.tagId.set(null);
+                            }
+
+                            Timber.tag("KeyFragment-s").e("tagid: %s", viewModel.tagId.get());
                             refreshRc();
                         }
                     }
@@ -268,6 +275,10 @@ public class KeyFragment extends BaseFragment<FragmentKeyBinding, KeyFragmentVie
         if (viewModel.organizationId.get() != null && Objects.requireNonNull(viewModel.organizationId.get()) == 0L) {
             viewModel.organizationId.set(null);
         }
+        if (viewModel.tagId.get() != null && Objects.requireNonNull(viewModel.tagId.get()) == 0L) {
+            viewModel.tagId.set(null);
+        }
+
         if (viewModel.kind.get() != null && Objects.requireNonNull(viewModel.kind.get()) == 0) {
             viewModel.kind.set(null);
         }
@@ -437,6 +448,11 @@ public class KeyFragment extends BaseFragment<FragmentKeyBinding, KeyFragmentVie
             bundle.putLong(Constants.ORGANIZATION_ID, 0L);
         else
             bundle.putLong(Constants.ORGANIZATION_ID, Objects.requireNonNull(viewModel.organizationId.get()));
+        //Tag
+        if (viewModel.tagId.get() == null)
+            bundle.putLong(Constants.TAG_ID, 0L);
+        else
+            bundle.putLong(Constants.TAG_ID, Objects.requireNonNull(viewModel.tagId.get()));
 
         intent.putExtras(bundle);
         activityResultLauncher.launch(intent);

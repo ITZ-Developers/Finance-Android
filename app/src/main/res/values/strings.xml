@@ -381,7 +381,7 @@
     <string name="update_organization_success">Cập nhật công ty thành công!</string>
     <string name="invalid_organization_name">Tên công ty không được bỏ trống!</string>
     <string name="logo">Logo</string>
-    <string name="logo_project">Logo dự án</string>
+    <string name="logo_note">Logo ghi chú</string>
     <string name="logo_organization">Logo công ty</string>
     <string name="question_confirm_delete_organization">Xác nhận xóa công ty này?</string>
     <string name="question_confirm_delete_project">Xác nhận xóa dự án này?</string>
@@ -393,7 +393,7 @@
     <string name="invalid_project_name">Tên dự án không được để trống!</string>
     <string name="create_project_success">Tạo dự án thành công!</string>
     <string name="update_project_success">Cập nhật dự án thành công!</string>
-    <string name="project_name">Tên dự án</string>
+    <string name="note_name">Tên ghi chú</string>
     <string name="input_project">Nhập tên dự án</string>
     <string name="add_new_project">Thêm dự án mới</string>
     <string name="detail_project">Chi tiết dự án</string>
@@ -511,7 +511,7 @@
     <string name="remove_transaction">Bỏ giao dịch ra khỏi kì thanh toán?</string>
     <string name="can_not_move">Không thể bỏ giao dịch này ra khỏi kì thanh toán!</string>
     <string name="remove_transaction_success">Bỏ giao dịch ra khỏi kì thanh toán thành công!</string>
-    <string name="input_project_note">Nhập ghi chú cho dự án</string>
+    <string name="input_project_note">Nhập mô tả</string>
     <string name="search_tag_name">Tìm kiếm thẻ...</string>
     <string name="tag_management">Quản lý Tag</string>
     <string name="delete_tag_success">Xóa Tag thành công!</string>

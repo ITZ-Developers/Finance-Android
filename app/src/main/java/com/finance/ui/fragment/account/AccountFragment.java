@@ -108,6 +108,7 @@ public class AccountFragment extends BaseFragment<FragmentAccountBinding, Accoun
                         }else {
                             viewModel.saveFile2(response);
                         }
+                        downLoadDialog.dismiss();
                         viewModel.hideLoading();
                     },
                     throwable -> {
@@ -178,7 +179,6 @@ public class AccountFragment extends BaseFragment<FragmentAccountBinding, Accoun
     @Override
     public void confirm() {
         requestKey();
-        downLoadDialog.dismiss();
     }
 
     @Override

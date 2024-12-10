@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -107,6 +108,13 @@ public class DebitDetailActivity extends BaseActivity<ActivityDebitDetailBinding
                 return;
             }
             viewModel.debit.set(debitResponse);
+
+            if (Objects.requireNonNull(viewModel.debit.get()).getTag() != null
+                    && Objects.requireNonNull(viewModel.debit.get()).getTag().getColorCode() != null) {
+                int color = Color.parseColor(decrypt(Objects.requireNonNull(viewModel.debit.get()).getTag().getColorCode()));
+                viewBinding.colorTag.setColorFilter(color);
+            }
+
             viewModel.debit.notifyChange();
             //Setup Document from json for transaction
             setupDocument();

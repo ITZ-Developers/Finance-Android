@@ -175,6 +175,38 @@
                             android:layout_marginTop="@dimen/_10sdp"
                             android:layout_marginHorizontal="@dimen/_10sdp"
                             >
+
+                            <TextView
+                                style="@style/AppTvTitleDetailInfo"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/transaction_kind"
+                                />
+                            <TextView
+                                android:id="@+id/tv_transaction_kind"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@{vm.debit.kind == 1 ? @string/kind_1 : @string/kind_2, default=@string/kind_1}"
+                                style="@style/AppTvInforDetailTransaction"
+                                android:layout_alignParentEnd="true"
+                                android:maxWidth="@dimen/_180sdp"
+                                />
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_1sdp"
+                                android:background="@color/divider"
+                                android:layout_below="@id/tv_transaction_kind"
+                                android:layout_marginTop="@dimen/_7sdp"
+                                />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_marginHorizontal="@dimen/_10sdp"
+                            >
                             <TextView
                                 style="@style/AppTvTitleDetailInfo"
                                 android:layout_width="wrap_content"
@@ -201,34 +233,48 @@
                                 />
                         </RelativeLayout>
 
+
+
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
                             android:layout_marginTop="@dimen/_10sdp"
                             android:layout_marginHorizontal="@dimen/_10sdp"
+                            android:visibility="@{vm.debit.tag != null ? View.VISIBLE : View.GONE}"
                             >
 
                             <TextView
                                 style="@style/AppTvTitleDetailInfo"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/transaction_kind"
+                                android:text="@string/tag"
                                 />
+
                             <TextView
-                                android:id="@+id/tv_transaction_kind"
+                                android:id="@+id/tv_tag"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@{vm.debit.kind == 1 ? @string/kind_1 : @string/kind_2, default=@string/kind_1}"
+                                android:text="@{a.decrypt(vm.debit.tag.name), default=tag}"
                                 style="@style/AppTvInforDetailTransaction"
-                                android:layout_alignParentEnd="true"
+                                android:layout_toStartOf="@id/color_tag"
                                 android:maxWidth="@dimen/_180sdp"
+                                android:layout_marginEnd="@dimen/_7sdp"
                                 />
+
+                            <ImageView
+                                android:id="@+id/color_tag"
+                                android:layout_width="@dimen/_20sdp"
+                                android:layout_height="@dimen/_20sdp"
+                                android:layout_alignParentEnd="true"
+                                android:src="@drawable/ic_tag"
+                                />
+
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/_1sdp"
                                 android:background="@color/divider"
-                                android:layout_below="@id/tv_transaction_kind"
+                                android:layout_below="@id/tv_tag"
                                 android:layout_marginTop="@dimen/_7sdp"
                                 />
                         </RelativeLayout>

@@ -194,6 +194,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:paddingTop="@dimen/_10sdp"
+                    android:visibility="@{vm.keyResponse.tag != null &amp;&amp; vm.keyResponse.tag.colorCode != null ? View.VISIBLE : View.GONE}"
                     >
 
                     <TextView

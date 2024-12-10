@@ -103,8 +103,11 @@ public class KeyInfoActivity extends BaseActivity<ActivityKeyInfoBinding, KeyInf
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
                 setupDocument();
-                int color = Color.parseColor(decrypt(Objects.requireNonNull(viewModel.keyResponse.get()).getTag().getColorCode()));
-                viewBinding.colorTag.setColorFilter(color);
+                if (Objects.requireNonNull(viewModel.keyResponse.get()).getTag() != null
+                        && Objects.requireNonNull(viewModel.keyResponse.get()).getTag().getColorCode() != null) {
+                    int color = Color.parseColor(decrypt(Objects.requireNonNull(viewModel.keyResponse.get()).getTag().getColorCode()));
+                    viewBinding.colorTag.setColorFilter(color);
+                }
                 if(Objects.requireNonNull(viewModel.keyResponse.get()).getAdditionalInformation() != null
                         && !Objects.requireNonNull(viewModel.keyResponse.get()).getAdditionalInformation().isEmpty() ) {
                     if (Objects.requireNonNull(viewModel.keyResponse.get()).getKind() == 2) {

@@ -45,7 +45,6 @@ android {
 }
 
 dependencies {
-
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
@@ -82,6 +81,7 @@ dependencies {
     //RxAndroid
     def rxAndroidVer = '3.0.0'
     implementation "io.reactivex.rxjava3:rxandroid:${rxAndroidVer}"
+
     //RxJava
     def rxJavaVer = '3.0.7'
     implementation "io.reactivex.rxjava3:rxjava:${rxJavaVer}"
@@ -151,6 +151,4 @@ dependencies {
 
     //Pick color
     implementation 'com.github.yukuku:ambilwarna:2.0.1'
-
-
 }

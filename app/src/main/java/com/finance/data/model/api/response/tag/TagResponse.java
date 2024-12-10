@@ -15,4 +15,5 @@ public class TagResponse implements Serializable {
     private Integer kind;
     private String kindName;
     private String colorCode;
+
 }

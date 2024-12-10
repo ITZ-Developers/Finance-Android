@@ -14,11 +14,11 @@ public class Constants {
     public static final String PERMISSIONS = "KEY_PERMISSIONS";
 
     //Settings
-    public static final String MONEY_UNIT = "đ";
-
-    public static final String GROUP_SEPARATOR = ",";
-    public static final String DECIMAL_SEPARATOR = ".";
-    public static final String DATE_TIME_FORMAT ="dd.MM.yyyy HH:mm:ss";
+    public static String MONEY_UNIT = "đ";
+    public static Integer UNIT_RATE = 23000;
+    public static String GROUP_SEPARATOR = ",";
+    public static String DECIMAL_SEPARATOR = ".";
+    public static String DATE_TIME_FORMAT ="dd.MM.yyyy HH:mm:ss";
     public static final String DATE_FORMAT_FROM_API = "dd/MM/yyyy HH:mm:ss";
 
     //Fragment

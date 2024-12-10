@@ -213,6 +213,78 @@
                     </com.google.android.material.textfield.TextInputLayout>
                 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_7sdp"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tag"
+                        style="@style/AppTvTitleForEditText"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/red"
+                        android:fontFamily="@font/lato_medium"
+                        android:textSize="@dimen/_14ssp"
+                        android:textStyle="bold"
+                        />
+                </LinearLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_2sdp"
+                    >
+                    <androidx.coordinatorlayout.widget.CoordinatorLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:theme="@style/DropDownMenu"
+                        >
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                            app:boxCornerRadiusBottomStart="@dimen/_8sdp"
+                            app:boxCornerRadiusBottomEnd="@dimen/_8sdp"
+                            app:boxCornerRadiusTopEnd="@dimen/_8sdp"
+                            app:boxCornerRadiusTopStart="@dimen/_8sdp"
+                            app:boxStrokeColor="@color/normal_brown"
+                            app:boxStrokeWidthFocused="@dimen/_1sdp"
+                            app:endIconTint="@color/gray_cbb"
+                            android:enabled="@{vm.isHaveTag ? true : false, default=false}"
+
+                            >
+                            <AutoCompleteTextView
+                                android:id="@+id/cbb_tag"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_35sdp"
+                                android:textSize="@dimen/_12ssp"
+                                android:paddingVertical="0dp"
+                                android:textCursorDrawable="@drawable/cursor_color"
+                                style="@style/AppSpinner"
+                                android:background="@{vm.isHaveTag ? @drawable/bg_cbb_enable : @drawable/bg_cbb_disable, default= @drawable/bg_cbb_disable}"
+                                >
+                            </AutoCompleteTextView>
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+                    <ImageView
+                        android:id="@+id/layout_color"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:src="@drawable/ic_tag"
+                        android:visibility="gone"
+                        android:layout_gravity="center_vertical|end"
+                        android:layout_marginEnd="@dimen/_35sdp"
+                        android:layout_marginTop="@dimen/_2sdp"
+                        />
+                </FrameLayout>
+
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
