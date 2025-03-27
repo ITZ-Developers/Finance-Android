@@ -83,7 +83,7 @@ import retrofit2.http.Query;
 
 public interface ApiService {
     //Login
-    @POST("api/token")
+    @POST("v1/account/login")
     @Headers({"BasicAuth: 1"})
     Observable<LoginResponse> login(@Body LoginRequest request);
 
@@ -279,8 +279,6 @@ public interface ApiService {
     Observable<ResponseStatus> deleteAllNotification();
     @DELETE("/v1/notification/delete/{id}")
     Observable<ResponseStatus> deleteNotification(@Path("id") Long id);
-    @GET("/v1/setting/list")
-    Observable<ResponseStatus> getSettings();
 
     @POST("/v1/account/request-forget-password")
     @Headers({"BasicAuth: 1"})

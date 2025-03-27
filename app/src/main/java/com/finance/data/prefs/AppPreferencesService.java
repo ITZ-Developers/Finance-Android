@@ -70,5 +70,13 @@ public class AppPreferencesService implements PreferencesService {
         return gson.fromJson(json, type);
     }
 
+    @Override
+    public void setTenantName(String tenantName) {
+        mPrefs.edit().putString(KEY_TENANT_NAME, tenantName).apply();
+    }
 
+    @Override
+    public String getTenantName() {
+        return mPrefs.getString(KEY_TENANT_NAME, "");
+    }
 }

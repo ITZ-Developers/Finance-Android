@@ -36,10 +36,17 @@ public class AuthInterceptor implements Interceptor {
         chain.request().newBuilder();
         Request.Builder newRequest;
 
+        String tenantName = appPreferences.getTenantName();
+        boolean isHaveTenant = tenantName != null && !tenantName.isEmpty() && !tenantName.equals("NULL");
+
+
         String isIgnore = chain.request().header("IgnoreAuth");
         if (isIgnore != null && isIgnore.equals("1")) {
             newRequest = chain.request().newBuilder();
             newRequest.removeHeader("IgnoreAuth");
+            if (isHaveTenant) {
+                newRequest.addHeader("X-tenant", tenantName);
+            }
             return chain.proceed(newRequest.build());
         }
 
@@ -51,7 +58,9 @@ public class AuthInterceptor implements Interceptor {
             newRequest = chain.request().newBuilder();
             newRequest.removeHeader("BasicAuth");
             newRequest.addHeader("Authorization", "Basic " + Base64.encodeToString(base.getBytes(), Base64.NO_WRAP));
-
+            if (isHaveTenant) {
+                newRequest.addHeader("X-tenant", tenantName);
+            }
             return chain.proceed(newRequest.build());
         }
         newRequest = chain.request().newBuilder();
@@ -59,6 +68,10 @@ public class AuthInterceptor implements Interceptor {
         Timber.d(token);
         if (token !=null && !token.isEmpty()){
             newRequest.addHeader("Authorization", "Bearer " + token);
+        }
+
+        if (isHaveTenant) {
+            newRequest.addHeader("X-tenant", tenantName);
         }
 
         Response origResponse = chain.proceed(newRequest.build());

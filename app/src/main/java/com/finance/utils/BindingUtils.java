@@ -25,7 +25,7 @@ public final class BindingUtils {
             return;
         }
         Glide.with(view.getContext())
-                .load(BuildConfig.BASE_URL+ Constants.FILE_DOWNLOAD + url)
+                .load(BuildConfig.MEDIA_URL+ Constants.FILE_DOWNLOAD + url)
                 .error(R.drawable.bg_ava)
                 .placeholder(R.drawable.bg_ava)
                 .into(view);
@@ -45,7 +45,7 @@ public final class BindingUtils {
             return;
         }
         Glide.with(view.getContext())
-                .load(BuildConfig.BASE_URL+ Constants.FILE_DOWNLOAD + url)
+                .load(BuildConfig.MEDIA_URL+ Constants.FILE_DOWNLOAD + url)
                 .error(drawable)
                 .placeholder(drawable)
                 .into(view);
@@ -55,7 +55,7 @@ public final class BindingUtils {
         if (url == null){
             return null;
         }
-        return BuildConfig.BASE_URL + Constants.FILE_DOWNLOAD + url;
+        return BuildConfig.MEDIA_URL + Constants.FILE_DOWNLOAD + url;
     }
 
 }

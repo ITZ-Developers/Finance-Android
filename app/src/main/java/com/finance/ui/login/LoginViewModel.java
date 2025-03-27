@@ -26,12 +26,14 @@ public class LoginViewModel extends BaseViewModel {
     public ObservableField<Boolean> isShowPassword = new ObservableField<>(false);
     public ObservableField<String> username = new ObservableField<>();
     public ObservableField<String> password = new ObservableField<>();
+    public ObservableField<String> tenantId = new ObservableField<>();
 
     public LoginViewModel(Repository repository, MVVMApplication application) {
         super(repository, application);
     }
 
     public void doLogin(){
+        repository.getSharedPreferences().setTenantName(tenantId.get());
         if (username.get() == null || Objects.requireNonNull(username.get()).trim().isEmpty()){
             showErrorMessage(application.getString(R.string.invalid_username_login));
             return;
@@ -69,7 +71,7 @@ public class LoginViewModel extends BaseViewModel {
             return;
         }
         showLoading();
-        compositeDisposable.add(repository.getApiService().login(new LoginRequest(username.get(), password.get(), "password"))
+        compositeDisposable.add(repository.getApiService().login(new LoginRequest(username.get(), password.get(), "mobile"))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .retryWhen(throwable ->

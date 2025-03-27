@@ -14,11 +14,15 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField "String", "BASE_URL", "\"https://api-fm.itz.io.vn/\""
+        buildConfigField "String", "MASTER_URL", "\"https://finance-master-jmdi.onrender.com/\""
+        buildConfigField "String", "TENANT_URL", "\"https://finance-tenant.onrender.com/\""
+        buildConfigField "String", "WS_URL", "\"wss://finance-socket.onrender.com/ws/\""
+        buildConfigField "String", "MEDIA_URL", "\"https://finance-cache.onrender.com/\""
     }
 
     buildTypes {
         debug {
+
             //minifyEnabled true
             //proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             firebaseCrashlytics {
@@ -141,7 +145,7 @@ dependencies {
 
     //SwiperevealLayout
     implementation("com.github.zerobranch:SwipeLayout:1.3.1")
-    implementation("com.chauthai.swipereveallayout:swipe-reveal-layout:1.4.1")
+    implementation 'com.github.chthai64:SwipeRevealLayout:1.4.0'
 
     implementation 'commons-validator:commons-validator:1.7'
 

@@ -63,10 +63,8 @@ public class AppModule {
     @ApiInfo
     @Singleton
     String provideBaseUrl() {
-        return BuildConfig.BASE_URL;
+        return BuildConfig.TENANT_URL;
     }
-
-
 
     @Provides
     @Singleton
@@ -100,11 +98,11 @@ public class AppModule {
                 .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .build();
     }
+
     @Provides
     @Singleton
     public ApiService apiService(Retrofit retrofit) {
         return retrofit.create(ApiService.class);
     }
-
 
 }

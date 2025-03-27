@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface PreferencesService {
     String KEY_BEARER_TOKEN="KEY_BEARER_TOKEN";
+    String KEY_TENANT_NAME="KEY_TENANT_NAME";
     String ACCOUNT="ACCOUNT";
 
     String getToken();
@@ -16,4 +17,6 @@ public interface PreferencesService {
     List<Permission> getPermissions();
     void setAccount(AccountResponse accountResponse);
     AccountResponse getAccount();
+    void setTenantName(String tenantName);
+    String getTenantName();
 }
