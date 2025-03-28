@@ -149,7 +149,6 @@ public class ProjectFragment extends BaseFragment<FragmentProjectBinding, Projec
             if(valid){
                 viewModel.isValidKey.set(true);
                 adapter.setSecretKey(SecretKey.getInstance().getKey());
-                adapter.setPermissions(getPermissions());
                 viewModel.getAllProject();
             }else {
                 viewModel.isValidKey.set(false);

@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chauthai.swipereveallayout.ViewBinderHelper;
+import com.finance.MVVMApplication;
 import com.finance.constant.Constants;
 import com.finance.data.model.api.response.account.Permission;
 import com.finance.data.model.api.response.transaction.TransactionResponse;
@@ -30,9 +31,6 @@ public class TransactionResponseAdapter extends RecyclerView.Adapter<Transaction
     @Getter
     @Setter
     private String secretKey;
-    @Getter
-    @Setter
-    private List<Permission> permissions;
 
     public TransactionResponseAdapter(List<TransactionResponse> mListTransactionResponse, OnItemClickListener onItemClickListener) {
         this.listTransactionResponse = mListTransactionResponse;
@@ -54,9 +52,9 @@ public class TransactionResponseAdapter extends RecyclerView.Adapter<Transaction
         TransactionResponse myTran = listTransactionResponse.get(position);
         holder.binding.setIvm(myTran);
         //Check permission
-        holder.binding.setPermissionApprove(Permission.checkPermission(Constants.PERMISSION_TRANSACTION_APPROVE, permissions));
-        holder.binding.setPermissionReject(Permission.checkPermission(Constants.PERMISSION_TRANSACTION_REJECT, permissions));
-        holder.binding.setPermissionDelete(Permission.checkPermission(Constants.PERMISSION_TRANSACTION_DELETE, permissions));
+        holder.binding.setPermissionApprove(Permission.checkPermission(Constants.PERMISSION_TRANSACTION_APPROVE, MVVMApplication.getPermissions()));
+        holder.binding.setPermissionReject(Permission.checkPermission(Constants.PERMISSION_TRANSACTION_REJECT, MVVMApplication.getPermissions()));
+        holder.binding.setPermissionDelete(Permission.checkPermission(Constants.PERMISSION_TRANSACTION_DELETE, MVVMApplication.getPermissions()));
         holder.binding.setSecretKey(secretKey);
         viewBinderHelper.bind(holder.binding.swipeLayout, myTran.getId().toString());
         holder.binding.executePendingBindings();

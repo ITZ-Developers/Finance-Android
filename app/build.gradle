@@ -9,8 +9,8 @@ android {
     buildToolsVersion "30.0.3"
     defaultConfig {
         applicationId "com.base.mvvm"
-        minSdkVersion 23
-        targetSdkVersion 30
+        minSdkVersion 24
+        targetSdkVersion 33
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -155,4 +155,10 @@ dependencies {
 
     //Pick color
     implementation 'com.github.yukuku:ambilwarna:2.0.1'
+
+    implementation 'com.auth0:java-jwt:4.4.0'
+
+    implementation 'com.tinder.scarlet:scarlet:0.1.12'
+
+
 }

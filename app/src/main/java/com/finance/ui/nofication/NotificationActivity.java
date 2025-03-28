@@ -87,7 +87,6 @@ public class NotificationActivity extends BaseActivity<ActivityNotificationBindi
 
     public void setRcNotifications(){
         LinearLayoutManager layout = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false);
-        notificationAdapter.setPermissions(getPermissions());
         viewBinding.rcNotification.setAdapter(notificationAdapter);
 
         notificationAdapter.setNotificationListener(new NotificationAdapter.NotificationListener() {

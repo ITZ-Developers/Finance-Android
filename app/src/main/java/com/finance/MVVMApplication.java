@@ -15,6 +15,8 @@ import com.finance.others.MyTimberReleaseTree;
 import com.finance.utils.DialogUtils;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
+import java.util.List;
+
 import io.reactivex.rxjava3.subjects.PublishSubject;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,6 +31,9 @@ public class MVVMApplication  extends Application implements LifecycleObserver{
     @Getter
     private AppComponent appComponent;
 
+    @Getter
+    @Setter
+    private static List<String> permissions;
 
     @Override
     public void onCreate() {

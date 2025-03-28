@@ -191,7 +191,6 @@ public class StaticsDetailActivity extends BaseActivity<ActivityStatisticsDetail
                 setupAdapter();
                 adapter.setListTransactionResponse(new ArrayList<>());
                 adapter.setSecretKey(SecretKey.getInstance().getKey());
-                adapter.setPermissions(getPermissions());
                 adapter.notifyDataSetChanged();
                 viewModel.getMyTransactions(paymentPeriodId, null);
             }else {

@@ -10,6 +10,7 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chauthai.swipereveallayout.ViewBinderHelper;
+import com.finance.MVVMApplication;
 import com.finance.R;
 import com.finance.constant.Constants;
 import com.finance.data.model.api.response.account.Permission;
@@ -27,9 +28,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     private List<NotificationResponse> notifications;
     private final ViewBinderHelper viewBinderHelper = new ViewBinderHelper();
 
-    @Getter
-    @Setter
-    private List<Permission> permissions;
 
     public NotificationAdapter(){
         viewBinderHelper.setOpenOnlyOne(true);
@@ -99,7 +97,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             this.position = position;
             notification = notifications.get(position);
             viewBinderHelper.bind(binding.swipeRevealLayout, String.valueOf(notification.getId()));
-            binding.setPermissionDelete(Permission.checkPermission(Constants.PERMISSION_NOTIFICATION_DELETE, permissions));
+            binding.setPermissionDelete(Permission.checkPermission(Constants.PERMISSION_NOTIFICATION_DELETE, MVVMApplication.getPermissions()));
             binding.setIvm(notification);
             binding.layoutDelete.setOnClickListener(view -> {
                 NotificationListener.deleteNotification(position,notification);

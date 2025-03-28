@@ -13,6 +13,12 @@ public class Constants {
 
     public static final String PERMISSIONS = "KEY_PERMISSIONS";
 
+    //default app
+    public static final String APP = "CLIENT_APP";
+    public static final String LANG = "vi";
+    public static final int PLATFORM = 0;
+    public static final String VERSION = "1.0";
+
     //Settings
     public static String MONEY_UNIT = "đ";
     public static Integer UNIT_RATE = 23000;

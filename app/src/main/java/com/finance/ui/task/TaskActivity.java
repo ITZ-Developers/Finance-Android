@@ -144,7 +144,6 @@ public class TaskActivity extends BaseActivity<ActivityTaskBinding, TaskViewMode
                 //Default data
                 setupAdapter();
                 adapter.setSecretKey(SecretKey.getInstance().getKey());
-                adapter.setPermissions(getPermissions());
                 adapter.setListTaskResponse(new ArrayList<>());
                 adapter.notifyDataSetChanged();
 

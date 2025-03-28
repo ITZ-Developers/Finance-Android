@@ -9,7 +9,6 @@ import com.finance.R;
 import com.finance.data.Repository;
 import com.finance.data.model.api.request.transaction.TransactionApproveRequest;
 import com.finance.data.model.api.request.transaction.TransactionRejectRequest;
-import com.finance.data.model.api.response.account.Permission;
 import com.finance.data.model.api.response.transaction.TransactionResponse;
 import com.finance.ui.base.BaseCallBack;
 import com.finance.ui.base.BaseFragmentViewModel;
@@ -48,10 +47,7 @@ public class HomeFragmentViewModel extends BaseFragmentViewModel {
 
     }
 
-    public Boolean checkPermission(String code){
-        List<Permission> permissionList = repository.getSharedPreferences().getPermissions();
-        return Permission.checkPermission(code,permissionList);
-    }
+
     public void getMyTransactions(Integer kindTransaction) {
         long startTime = System.currentTimeMillis();
         //2 of softDate mean new is the first item. newest to oldest

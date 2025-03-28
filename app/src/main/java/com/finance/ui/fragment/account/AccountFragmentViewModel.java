@@ -43,7 +43,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
-import java.util.List;
 import java.util.Objects;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -195,8 +194,7 @@ public class    AccountFragmentViewModel extends BaseFragmentViewModel {
     }
 
     public Boolean checkPermission(String code){
-        List<Permission> permissionList = repository.getSharedPreferences().getPermissions();
-        return Permission.checkPermission(code,permissionList);
+        return Permission.checkPermission(code, MVVMApplication.getPermissions());
     }
     public Observable<ResponseBody> requestKey(PrivateKeyRequest request){
         return repository.getApiService().exportToExcelKey(request);

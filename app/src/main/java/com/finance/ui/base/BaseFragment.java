@@ -142,11 +142,10 @@ public abstract class BaseFragment<B extends ViewDataBinding, V extends BaseFrag
     }
 
     public Boolean checkPermission(String code){
-        List<Permission> permissionList = viewModel.repository.getSharedPreferences().getPermissions();
-        return Permission.checkPermission(code,permissionList);
+        return Permission.checkPermission(code, MVVMApplication.getPermissions());
     }
-    public List<Permission> getPermissions(){
-        return viewModel.repository.getSharedPreferences().getPermissions();
+    public List<String> getPermissions(){
+        return MVVMApplication.getPermissions();
     }
 
     public Boolean checkSecretKeyValid(){

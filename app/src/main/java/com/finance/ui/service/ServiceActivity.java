@@ -200,7 +200,6 @@ ServiceActivity extends BaseActivity<ActivityServiceBinding, ServiceViewModel>
                 setupAdapter();
                 adapter.setServiceResponses(new ArrayList<>());
                 adapter.setSecretKey(SecretKey.getInstance().getKey());
-                adapter.setPermissions(getPermissions());
                 adapter.notifyDataSetChanged();
                 //Check if sort by Date
                 if (Objects.requireNonNull(viewModel.sort.get()) == 3){

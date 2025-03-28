@@ -190,12 +190,11 @@ public abstract class BaseActivity<B extends ViewDataBinding, V extends BaseView
 
     //check permission
     public Boolean checkPermission(String code){
-        List<Permission> permissionList = viewModel.repository.getSharedPreferences().getPermissions();
-        return Permission.checkPermission(code,permissionList);
+        return Permission.checkPermission(code,MVVMApplication.getPermissions());
     }
 
-    public List<Permission> getPermissions(){
-        return viewModel.repository.getSharedPreferences().getPermissions();
+    public List<String> getPermissions(){
+        return MVVMApplication.getPermissions();
     }
 
     public AccountResponse getAccount(){
@@ -206,12 +205,12 @@ public abstract class BaseActivity<B extends ViewDataBinding, V extends BaseView
         inputKeyDialog = new InputKeyDialog();
         inputKeyDialog.setListener(this.inputKeyListener);
         inputKeyDialog.show(getSupportFragmentManager(), Constants.INPUT_KEY_DIALOG);
-
     }
 
     public Boolean checkSecretKeyValid(){
         return SecretKey.getInstance().getKey() != null;
     }
+
     public void saveSecretKey(String privateKey, String secretKey){
         try {
             Timber.d(privateKey);

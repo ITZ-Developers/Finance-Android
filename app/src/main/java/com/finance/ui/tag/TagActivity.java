@@ -102,7 +102,6 @@ public class TagActivity extends BaseActivity<ActivityTagBinding, TagViewModel>
                 setupTagKindAdapter();
                 adapter.setTagResponses(new ArrayList<>());
                 adapter.setSecretKey(SecretKey.getInstance().getKey());
-                adapter.setPermissions(getPermissions());
                 adapter.notifyDataSetChanged();
                 viewModel.getTags(Constants.TAG_KIND_TRANSACTION);
             }else {

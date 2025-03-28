@@ -272,7 +272,6 @@ public class DebitActivity extends BaseActivity<ActivityDebitBinding, DebitViewM
                 //Default data
                 setupAdapter();
                 adapter.setSecretKey(SecretKey.getInstance().getKey());
-                adapter.setPermissions(getPermissions());
                 adapter.setListDebitResponse(new ArrayList<>());
                 adapter.notifyDataSetChanged();
                 viewModel.getMyDebits();

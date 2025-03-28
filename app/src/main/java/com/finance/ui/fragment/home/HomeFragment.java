@@ -199,7 +199,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeFragment
                      //Default data
                      setupAdapter();
                      adapter.setSecretKey(SecretKey.getInstance().getKey());
-                     adapter.setPermissions(getPermissions());
                      adapter.setListTransactionResponse(new ArrayList<>());
                      adapter.notifyDataSetChanged();
                      viewModel.getMyTransactions(null);

@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chauthai.swipereveallayout.ViewBinderHelper;
+import com.finance.MVVMApplication;
 import com.finance.R;
 import com.finance.constant.Constants;
 import com.finance.data.model.api.response.account.Permission;
@@ -33,9 +34,7 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.TagViewHolder> {
     @Getter
     @Setter
     private String secretKey;
-    @Getter
-    @Setter
-    private List<Permission> permissions;
+
     private final TagListener tagListener;
     public TagAdapter(List<TagResponse> TagResponses, TagListener tagListener) {
         this.tagResponses = TagResponses;
@@ -82,7 +81,7 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.TagViewHolder> {
             viewBinderHelper.bind(binding.swipeRevealLayout, String.valueOf(tag.getId()));
             binding.setIvm(tag);
             binding.setSecretKey(secretKey);
-            binding.setPermissionDelete(Permission.checkPermission(Constants.PERMISSION_TAG_DELETE,permissions));
+            binding.setPermissionDelete(Permission.checkPermission(Constants.PERMISSION_TAG_DELETE, MVVMApplication.getPermissions()));
             binding.executePendingBindings();
             String color = AESUtils.decrypt(secretKey, tag.getColorCode());
             binding.imgTag.setColorFilter(Color.parseColor(color));

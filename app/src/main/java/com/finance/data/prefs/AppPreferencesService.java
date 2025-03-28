@@ -41,19 +41,6 @@ public class AppPreferencesService implements PreferencesService {
     }
 
     @Override
-    public void savePermissions(List<Permission> permissionList) {
-        mPrefs.edit().putString(Constants.PERMISSIONS, ApiModelUtils.GSON.toJson(permissionList)).apply();
-    }
-
-    @Override
-    public List<Permission> getPermissions() {
-        Gson gson = new Gson();
-        String json = mPrefs.getString(Constants.PERMISSIONS, null);
-        Type type = new TypeToken<List<Permission>>() {}.getType();
-        return gson.fromJson(json, type);
-    }
-
-    @Override
     public void setAccount(AccountResponse accountResponse) {
         mPrefs.edit().putString(ACCOUNT, ApiModelUtils.GSON.toJson(accountResponse)).apply();
     }

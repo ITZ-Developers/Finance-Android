@@ -159,7 +159,6 @@ public class SubTaskActivity extends BaseActivity<ActivitySubTaskBinding, SubTas
                 deleteAt(pos);
             }
         });
-        mSubTaskAdapter.setPermissions(getPermissions());
         mSubTaskAdapter.setSecretKey(SecretKey.getInstance().getKey());
         viewBinding.rcvTasks.setAdapter(mSubTaskAdapter);
         viewBinding.rcvTasks.setLayoutManager(new LinearLayoutManager(

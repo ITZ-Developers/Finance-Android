@@ -20,7 +20,6 @@ import com.finance.constant.Constants;
 import com.finance.data.SecretKey;
 import com.finance.data.model.api.response.project.ProjectResponse;
 import com.finance.databinding.ActivityProjectBinding;
-import com.finance.databinding.ActivityTaskBinding;
 import com.finance.di.component.ActivityComponent;
 import com.finance.ui.base.BaseActivity;
 import com.finance.ui.base.BaseCallBack;
@@ -132,7 +131,6 @@ public class ProjectActivity extends BaseActivity<ActivityProjectBinding, Projec
                                     viewModel.getProjectDetails(id);
                                 }
                             }
-
                             else if (result == Constants.RESULT_FROM_TASK){
                                 assert data != null;
 

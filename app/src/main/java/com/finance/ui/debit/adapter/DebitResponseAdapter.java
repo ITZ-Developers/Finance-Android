@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chauthai.swipereveallayout.ViewBinderHelper;
+import com.finance.MVVMApplication;
 import com.finance.constant.Constants;
 import com.finance.data.model.api.response.account.Permission;
 import com.finance.data.model.api.response.debit.DebitResponse;
@@ -57,8 +58,8 @@ public class DebitResponseAdapter extends RecyclerView.Adapter<DebitResponseAdap
         DebitResponse debit = listDebitResponse.get(position);
         holder.binding.setIvm(debit);
         holder.binding.setSecretKey(secretKey);
-        holder.binding.setPermissionApprove(Permission.checkPermission(Constants.PERMISSION_DEBIT_APPROVE, permissions));
-        holder.binding.setPermissionDelete(Permission.checkPermission(Constants.PERMISSION_DEBIT_DELETE, permissions));
+        holder.binding.setPermissionApprove(Permission.checkPermission(Constants.PERMISSION_DEBIT_APPROVE, MVVMApplication.getPermissions()));
+        holder.binding.setPermissionDelete(Permission.checkPermission(Constants.PERMISSION_DEBIT_DELETE, MVVMApplication.getPermissions()));
         viewBinderHelper.bind(holder.binding.swipeLayout, debit.getId().toString());
         holder.binding.executePendingBindings();
 

@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chauthai.swipereveallayout.ViewBinderHelper;
+import com.finance.MVVMApplication;
 import com.finance.R;
 import com.finance.constant.Constants;
 import com.finance.data.model.api.response.account.Permission;
@@ -32,9 +33,6 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectS
     @Setter
     private String secretKey;
 
-    @Getter
-    @Setter
-    private List<Permission> permissions;
     private final ProjectListener projectListener;
 
     @Getter
@@ -103,8 +101,8 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectS
             viewBinderHelper.bind(binding.swipeRevealLayout, String.valueOf(project.getId()));
             binding.setIvm(project);
             binding.setSecretKey(secretKey);
-            binding.setPermissionUpdate(Permission.checkPermission(Constants.PERMISSION_PROJECT_UPDATE, permissions));
-            binding.setPermissionDelete(Permission.checkPermission(Constants.PERMISSION_PROJECT_DELETE, permissions));
+            binding.setPermissionUpdate(Permission.checkPermission(Constants.PERMISSION_PROJECT_UPDATE, MVVMApplication.getPermissions()));
+            binding.setPermissionDelete(Permission.checkPermission(Constants.PERMISSION_PROJECT_DELETE, MVVMApplication.getPermissions()));
             BindingUtils.setImageUrlByDrawable(binding.imgLogo, AESUtils.decrypt(secretKey,project.getLogo(), false), R.drawable.ic_project_default);
             binding.executePendingBindings();
             binding.layoutDelete.setOnClickListener(view -> {

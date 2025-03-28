@@ -5,6 +5,9 @@ import android.content.Intent;
 
 import androidx.databinding.ObservableField;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.interfaces.Claim;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.finance.MVVMApplication;
 import com.finance.R;
 import com.finance.data.Repository;
@@ -13,7 +16,10 @@ import com.finance.ui.base.BaseViewModel;
 import com.finance.ui.main.MainActivity;
 import com.finance.utils.NetworkUtils;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
@@ -87,6 +93,8 @@ public class LoginViewModel extends BaseViewModel {
                 .subscribe(
                         response -> {
                             repository.setToken(response.getAccess_token());
+                            DecodedJWT decodedJWT = JWT.decode(repository.getToken());
+                            MVVMApplication.setPermissions(getAuthorities(decodedJWT));
                             Intent intent = new Intent(application.getCurrentActivity(), MainActivity.class);
                             application.getCurrentActivity().startActivity(intent);
                             application.getCurrentActivity().finish();
@@ -102,6 +110,19 @@ public class LoginViewModel extends BaseViewModel {
                             }
                             hideLoading();
                         }));
+    }
+
+    private List<String> getAuthorities(DecodedJWT decodedJWT) {
+        Claim authoritiesClaim = decodedJWT.getClaim("authorities");
+        if (authoritiesClaim == null || authoritiesClaim.asList(String.class) == null) {
+            return Collections.emptyList();
+        }
+        if (!authoritiesClaim.isNull()) {
+            return authoritiesClaim.asList(String.class).stream()
+                    .map(authority -> authority.replace("ROLE_", ""))
+                    .collect(Collectors.toList());
+        }
+        return Collections.emptyList();
     }
 
     public void showPassword(){

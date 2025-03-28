@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chauthai.swipereveallayout.ViewBinderHelper;
+import com.finance.MVVMApplication;
 import com.finance.constant.Constants;
 import com.finance.data.model.api.response.account.Permission;
 import com.finance.data.model.api.response.service.ServiceResponse;
@@ -32,9 +33,7 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ServiceV
     @Getter
     @Setter
     private String secretKey;
-    @Getter
-    @Setter
-    private List<Permission> permissions;
+
     public ServiceAdapter(List<ServiceResponse> ServiceResponses, ServiceListener ServiceListener) {
         this.serviceResponses = ServiceResponses;
         this.ServiceListener = ServiceListener;
@@ -96,8 +95,8 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ServiceV
             viewBinderHelper.bind(binding.swipeRevealLayout, String.valueOf(Service.getId()));
             binding.setIvm(Service);
             binding.setSecretKey(secretKey);
-            binding.setPermissionResolve(Permission.checkPermission(Constants.PERMISSION_SERVICE_RESOLVE,permissions));
-            binding.setPermissionDelete(Permission.checkPermission(Constants.PERMISSION_SERVICE_DELETE,permissions));
+            binding.setPermissionResolve(Permission.checkPermission(Constants.PERMISSION_SERVICE_RESOLVE, MVVMApplication.getPermissions()));
+            binding.setPermissionDelete(Permission.checkPermission(Constants.PERMISSION_SERVICE_DELETE,MVVMApplication.getPermissions()));
             binding.executePendingBindings();
 
             binding.layoutDelete.setOnClickListener(view -> {

@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chauthai.swipereveallayout.ViewBinderHelper;
+import com.finance.MVVMApplication;
 import com.finance.constant.Constants;
 import com.finance.data.model.api.response.account.Permission;
 import com.finance.data.model.api.response.task.TaskResponse;
@@ -58,8 +59,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         TaskResponse task = listTaskResponse.get(position);
         holder.binding.setIvm(task);
         holder.binding.setSecretKey(secretKey);
-        holder.binding.setPermissionChangeState(Permission.checkPermission(Constants.PERMISSION_TASK_CHANGE_STATE, permissions));
-        holder.binding.setPermissionDelete(Permission.checkPermission(Constants.PERMISSION_TASK_DELETE, permissions));
+        holder.binding.setPermissionChangeState(Permission.checkPermission(Constants.PERMISSION_TASK_CHANGE_STATE, MVVMApplication.getPermissions()));
+        holder.binding.setPermissionDelete(Permission.checkPermission(Constants.PERMISSION_TASK_DELETE, MVVMApplication.getPermissions()));
         viewBinderHelper.bind(holder.binding.swipeLayout, task.getId().toString());
         holder.binding.executePendingBindings();
         holder.binding.layoutItem.setOnClickListener(v -> {

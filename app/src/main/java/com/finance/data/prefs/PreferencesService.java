@@ -13,8 +13,6 @@ public interface PreferencesService {
     String getToken();
     void setToken(String token);
     void removeKey(String key);
-    void savePermissions(List<Permission> permissionList);
-    List<Permission> getPermissions();
     void setAccount(AccountResponse accountResponse);
     AccountResponse getAccount();
     void setTenantName(String tenantName);

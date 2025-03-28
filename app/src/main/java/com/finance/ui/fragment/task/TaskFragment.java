@@ -146,7 +146,6 @@ public class  TaskFragment extends BaseFragment<FragmentTaskBinding, TaskFragmen
                 //Default data
                 setupAdapter();
                 adapter.setSecretKey(SecretKey.getInstance().getKey());
-                adapter.setPermissions(getPermissions());
                 adapter.setListTaskResponse(new ArrayList<>());
                 adapter.notifyDataSetChanged();
                 viewModel.getTasks();
