@@ -1,11 +1,12 @@
 plugins {
     id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
 }
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 34
     buildToolsVersion "30.0.3"
     defaultConfig {
         applicationId "com.base.mvvm"
@@ -16,7 +17,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "MASTER_URL", "\"https://finance-master-jmdi.onrender.com/\""
         buildConfigField "String", "TENANT_URL", "\"https://finance-tenant.onrender.com/\""
-        buildConfigField "String", "WS_URL", "\"wss://finance-socket.onrender.com/ws/\""
+        buildConfigField "String", "WS_URL", "\"wss://finance-socket.onrender.com/ws\""
         buildConfigField "String", "MEDIA_URL", "\"https://finance-cache.onrender.com/\""
     }
 
@@ -46,12 +47,17 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
 }
 
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.core:core-ktx:1.13.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'

@@ -128,8 +128,8 @@ public class    AccountFragmentViewModel extends BaseFragmentViewModel {
 
         btnSignOut.setOnClickListener(v -> {
             Intent intent = new Intent(application.getCurrentActivity(), LoginActivity.class);
-            repository.setToken(null);
-            repository.setAccount(null);
+            repository.getSharedPreferences().setToken(null);
+            repository.getSharedPreferences().setAccount(null);
             SecretKey.getInstance().setKey(null);
             application.getCurrentActivity().startActivity(intent);
             application.getCurrentActivity().finish();

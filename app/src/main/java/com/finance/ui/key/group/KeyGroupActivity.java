@@ -185,6 +185,7 @@ public class KeyGroupActivity extends BaseActivity<ActivityKeyGroupBinding, KeyG
                         if(response.getData().getContent()!=null){
                             if (Objects.requireNonNull(viewModel.pageNumber.get()) == 0) {
                                 keyGroupAdapter.setKeyGroups(response.getData().getContent());
+                                keyGroupAdapter.notifyDataSetChanged();
                             }else {
                                 keyGroupAdapter.addList(response.getData().getContent());
                             }

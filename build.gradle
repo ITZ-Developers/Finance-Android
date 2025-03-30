@@ -8,21 +8,24 @@ buildscript {
         agp_version3 = '7.3.0'
         agp_version4 = '7.2.0'
         agp_version5 = '7.0.0'
+        agp_version11 = '7.1.3'
         kotlin_version = '1.9.22'
+        agp_version6 = agp_version5
+        agp_version7 = agp_version6
     }
     repositories {
         google()
         jcenter()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:$agp_version5"
+        classpath "com.android.tools.build:gradle:$agp_version11"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
 
         classpath 'com.google.gms:google-services:4.3.5'
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.5.2'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.24"
     }
 }
 

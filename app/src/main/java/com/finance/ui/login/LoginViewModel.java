@@ -92,7 +92,7 @@ public class LoginViewModel extends BaseViewModel {
                 )
                 .subscribe(
                         response -> {
-                            repository.setToken(response.getAccess_token());
+                            repository.getSharedPreferences().setToken(response.getAccess_token());
                             DecodedJWT decodedJWT = JWT.decode(repository.getToken());
                             MVVMApplication.setPermissions(getAuthorities(decodedJWT));
                             Intent intent = new Intent(application.getCurrentActivity(), MainActivity.class);

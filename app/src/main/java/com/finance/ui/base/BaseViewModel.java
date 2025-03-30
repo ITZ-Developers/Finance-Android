@@ -9,6 +9,7 @@ import com.finance.data.Repository;
 import com.finance.data.model.api.ResponseWrapper;
 import com.finance.data.model.api.response.key.MyKeyResponse;
 import com.finance.data.model.other.ToastMessage;
+import com.finance.data.socket.dto.Message;
 
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
@@ -59,4 +60,9 @@ public class BaseViewModel extends ViewModel {
         return repository.getApiService().getMyKey();
     }
 
+    public void messageReceived(Message message){
+    }
+    public void sendMessage(Message message){
+        application.sendMessage(message);
+    }
 }

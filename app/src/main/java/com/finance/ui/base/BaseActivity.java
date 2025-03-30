@@ -25,6 +25,8 @@ import com.finance.constant.Constants;
 import com.finance.data.SecretKey;
 import com.finance.data.model.api.response.account.AccountResponse;
 import com.finance.data.model.api.response.account.Permission;
+import com.finance.data.socket.KittyRealtimeEvent;
+import com.finance.data.socket.dto.Message;
 import com.finance.di.component.ActivityComponent;
 import com.finance.di.component.DaggerActivityComponent;
 import com.finance.di.module.ActivityModule;
@@ -43,7 +45,8 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import timber.log.Timber;
 
-public abstract class BaseActivity<B extends ViewDataBinding, V extends BaseViewModel> extends AppCompatActivity{
+public abstract class BaseActivity<B extends ViewDataBinding, V extends BaseViewModel>
+        extends AppCompatActivity implements KittyRealtimeEvent {
 
     protected B viewBinding;
 
@@ -279,5 +282,31 @@ public abstract class BaseActivity<B extends ViewDataBinding, V extends BaseView
 
         }
     };
+
+    @Override
+    public void onConnectionClosed() {
+
+    }
+
+    @Override
+    public void onConnectionClosing() {
+
+    }
+
+    @Override
+    public void onMessageReceived(Message message) {
+        viewModel.messageReceived(message);
+    }
+
+    @Override
+    public void onConnectionFailed() {
+
+    }
+
+    @Override
+    public void onConnectionOpened() {
+
+    }
+
 
 }

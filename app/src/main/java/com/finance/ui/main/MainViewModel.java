@@ -34,8 +34,6 @@ public class MainViewModel extends BaseViewModel {
                 .subscribe(
                         response -> {
                             if(response.isResult()){
-//                                repository.getSharedPreferences().savePermissions(response.getData().getGroup().getPermissions());
-//                                repository.setAccount(response.getData());
                                 hideLoading();
                             }else{
                                 showErrorMessage(response.getMessage());

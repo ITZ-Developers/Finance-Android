@@ -41,15 +41,13 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (token != null && !token.isEmpty() && !token.equals("NULL")
-        )
+        if (token != null && !token.isEmpty() && !token.equals("NULL"))
         {
             Timber.d(token);
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
         }
-
 
         viewModel.isShowPassword.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override

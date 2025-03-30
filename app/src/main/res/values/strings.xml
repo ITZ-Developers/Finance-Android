@@ -527,5 +527,6 @@
     <string name="tag_do_not_exist">Tag không nằm trong danh sách hiện có!</string>
     <string name="id_organization">ID Công ty</string>
     <string name="input_tenant_id">Nhập ID công ty</string>
+    <string name="session_timeout">Hết phiên đăng nhập</string>
 
 </resources>
