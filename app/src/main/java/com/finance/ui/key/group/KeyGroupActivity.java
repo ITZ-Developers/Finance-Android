@@ -39,11 +39,28 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 import timber.log.Timber;
 
 public class KeyGroupActivity extends BaseActivity<ActivityKeyGroupBinding, KeyGroupViewModel> implements View.OnTouchListener{
-
     KeyGroupAdapter keyGroupAdapter;
     private float xAxis, yAxis,initialX,initialY;
     int lastAction;
-    private ActivityResultLauncher<Intent> activityResultLauncher;
+    private final ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+        result -> {
+            if (result.getResultCode() == Activity.RESULT_OK) {
+                Intent data = result.getData();
+                if(data != null){
+                    if(viewModel.positionUC.get() != null){
+                        String keyGroupS = Objects.requireNonNull(data.getExtras()).getString(Constants.KEY_GROUP);
+                        KeyGroupResponse keyGroupResponse = ApiModelUtils.fromJson(keyGroupS, KeyGroupResponse.class);
+                        assert keyGroupResponse != null;
+                        updateKeyGroup(keyGroupResponse.getId());
+                    }else {
+                        viewModel.page = 0;
+                        getKey();
+                    }
+                }
+            }
+    });
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_key_group;
@@ -59,14 +76,27 @@ public class KeyGroupActivity extends BaseActivity<ActivityKeyGroupBinding, KeyG
         buildComponent.inject(this);
     }
 
-    @SuppressLint("ClickableViewAccessibility")
+    @SuppressLint({"ClickableViewAccessibility", "NotifyDataSetChanged"})
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         keyGroupAdapter = new KeyGroupAdapter();
-        setRcKeys();
+        setupAdapter();
+        observeValidKey();
+        refreshLayout();
+        observeGroupKey();
+        viewBinding.btnAdd.setOnTouchListener(this);
+    }
 
+    private void refreshLayout() {
+        viewBinding.swipeLayout.setOnRefreshListener(() -> {
+            viewModel.page = 0;
+            getKey();
+            viewBinding.swipeLayout.setRefreshing(false);
+        });
+    }
+
+    private void observeValidKey() {
         viewModel.validKey.observe(this, valid->{
             Timber.d("CHECK KEY");
             if(valid){
@@ -77,33 +107,18 @@ public class KeyGroupActivity extends BaseActivity<ActivityKeyGroupBinding, KeyG
                 viewModel.isValidKey.set(false);
             }
         });
+    }
 
-        activityResultLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
-                        Intent data = result.getData();
-                        if(data != null){
-                            if(viewModel.positionUC.get() != null){
-                                String keyGroupS = Objects.requireNonNull(data.getExtras()).getString(Constants.KEY_GROUP);
-                                KeyGroupResponse keyGroupResponse = ApiModelUtils.fromJson(keyGroupS, KeyGroupResponse.class);
-                                assert keyGroupResponse != null;
-                                updateKeyGroup(keyGroupResponse.getId());
-                            }else {
-                                viewModel.pageNumber.set(0);
-                                getKey();
-                            }
-                        }
-                    }
-                });
-
-        viewBinding.swipeLayout.setOnRefreshListener(() -> {
-            viewModel.pageNumber.set(0);
-            getKey();
-            viewBinding.swipeLayout.setRefreshing(false);
+    @SuppressLint("NotifyDataSetChanged")
+    private void observeGroupKey() {
+        viewModel.keyGroupResponseLiveData.observe(this, keyGroupResponses -> {
+            if (keyGroupResponses == null || keyGroupResponses.isEmpty()) {
+                viewModel.showErrorMessage(getString(R.string.do_not_have_any_data));
+                return;
+            }
+            keyGroupAdapter.addList(keyGroupResponses);
+            keyGroupAdapter.notifyDataSetChanged();
         });
-
-        viewBinding.btnAdd.setOnTouchListener(this);
     }
 
 
@@ -174,34 +189,13 @@ public class KeyGroupActivity extends BaseActivity<ActivityKeyGroupBinding, KeyG
     }
 
     private void getKey(){
-        if (Objects.requireNonNull(viewModel.pageNumber.get()) == 0) {
+        if (viewModel.page == 0) {
             viewModel.showLoading();
         }
-        viewModel.compositeDisposable.add(viewModel.getKeyGroups()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(response -> {
-                    if(response.isResult()) {
-                        if(response.getData().getContent()!=null){
-                            if (Objects.requireNonNull(viewModel.pageNumber.get()) == 0) {
-                                keyGroupAdapter.setKeyGroups(response.getData().getContent());
-                                keyGroupAdapter.notifyDataSetChanged();
-                            }else {
-                                keyGroupAdapter.addList(response.getData().getContent());
-                            }
-                        }
-                        viewModel.totalElement.set(keyGroupAdapter.getItemCount());
-                    }
-                    viewModel.hideLoading();
-                },error->{
-                    viewModel.showErrorMessage(getString(R.string.newtwork_error));
-                    Timber.d(error);
-                    viewModel.hideLoading();
-                })
-        );
+        viewModel.getAllKeyGroups();
     }
 
-    public void setRcKeys(){
+    public void setupAdapter(){
         keyGroupAdapter.setLock(!checkPermission(Constants.PERMISSION_KEY_INFO_GROUP_DELETE));
         LinearLayoutManager layout = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false);
         viewBinding.rcKeys.setAdapter(keyGroupAdapter);
@@ -220,7 +214,6 @@ public class KeyGroupActivity extends BaseActivity<ActivityKeyGroupBinding, KeyG
 
             @Override
             public void deleteKeyGroup(int position, KeyGroupResponse KeyGroup) {
-
                 deleteAt(KeyGroup.getId(), position);
             }
 
@@ -230,9 +223,10 @@ public class KeyGroupActivity extends BaseActivity<ActivityKeyGroupBinding, KeyG
                 = new EndlessRecyclerViewScrollListener(layout) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view){
-                int pageCurrent = Objects.requireNonNull(viewModel.pageNumber.get());
-                viewModel.pageNumber.set(pageCurrent+1);
-                getKey();
+                if (viewModel.page < viewModel.totalPage - 1) {
+                    viewModel.page++;
+                    getKey();
+                }
             }
         };
         viewBinding.rcKeys.addOnScrollListener(endlessRecyclerViewScrollListener);
@@ -240,7 +234,6 @@ public class KeyGroupActivity extends BaseActivity<ActivityKeyGroupBinding, KeyG
     }
 
     public void deleteAt(Long id, int position){
-
         DeleteDialog deleteDialog = new DeleteDialog(getString(R.string.key_group), new DeleteDialog.DeleteListener() {
             @Override
             public void confirmDelete() {
